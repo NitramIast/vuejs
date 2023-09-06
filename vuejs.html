@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>
+            <!-- 呼叫Vue.js中的數據(字串Str,數字Num)需要用到'{{ }}' -->
+            {{ title }} - {{ age }}
+            <!-- button v = Vue, on = 'onclick,onmouse...etc' -->
+            <!-- : = type of event, click = event -->
+            <!-- "age++" = 把js的運算式直接帶到html中-->
+            <button v-on:click = "age++">Increase Age</button>
+            <button v-on:click = "age--">Decrease Age</button>
+            <!-- '@' = 'v-on:', changeIt 是 js的methods裡的function-->
+            <div @click = "changeIt" >Change It</div>
+            <!-- 可以給click的function內增加參數 -->
+            <div @click = "changeThis('真香')" >Change This</div>
+
+            <!-- v-if = "判斷式" -->
+            <div v-if = "txtShow">
+                {{ title }} - {{ age }}
+            </div>
+
+            <button @click = "toggleBtn">
+                <!-- 在一個標籤裡的兩列判斷式可以用v-if, v-else做判斷 -->
+                <span v-if = "txtShow">hide</span>
+                <span v-else>show</span>
+            </button>
+
+            <!-- 跟v-if一樣是去做判斷,只是v-show做完判斷式增加inline-style, display:block/none -->
+            <div v-show = "txtShow">another content</div>
+        </p>
+        <img :src="img" alt="">
+    </div>
+
+    <script>
+        // 開頭要先聲明Vue.createApp()來建立一個新的變數
+        // 在const app = Vue.createApp({})裡面可以放置任何data或function
+        const app = Vue.createApp({
+            //data是一個剪短的function名稱 
+            //不用'()=>'箭頭符號,或者function data()
+            data() {
+                //function裡面要用return來會傳需要的值
+                return {
+                    txtShow : true,
+                    title: 'see what i want',
+                    age: 22,
+                    img: 'https://i.pinimg.com/564x/c8/55/1b/c8551b40b823548e102c7bb7ad334fd1.jpg',
+                }
+            },
+            // methods是用來存放我們要對data裡的數據作更改的function的位置
+            methods : {
+                //changeIt是function名
+                changeIt(){
+                    //this來去呼叫data裡同名的資料
+                    //可以是this.title, this.age, this.???
+                    this.title = '是八重神子！！！'
+                },
+                //function裡的參數會依照按鈕裡面所設定的參數去做改變
+                changeThis(item){
+                    this.title = item
+                },
+                toggleBtn(){
+                    //當toggle按鈕按下將txtShow變成不等於自己的值就能在true/false之間做切換
+                    this.txtShow = !this.txtShow
+                }
+
+            }
+        })
+
+        // 將變數跟div命名相同的標籤連結在一起需要用到"mount('')"
+        app.mount('#app')
+    </script>
+</body>
+
+</html>
